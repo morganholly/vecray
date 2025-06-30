@@ -14,7 +14,13 @@ type
 
 proc vec3*(x, y, z: float): Vector3f = Vector3f(x: x, y: y, z: z)
 proc vec3*(x, y, z: int):   Vector3i = Vector3i(x: x, y: y, z: z)
+proc vec3*(x, y, z: uint):   Vector3i = Vector3i(x: int(x), y: int(y), z: int(z))
 proc vec3*(x, y, z: bool):  Vector3b = Vector3b(x: x, y: y, z: z)
+
+proc vec3*(f: float): Vector3f = Vector3f(x: f, y: f, z: f)
+proc vec3*(i: int):   Vector3i = Vector3i(x: i, y: i, z: i)
+proc vec3*(u: uint):   Vector3i = Vector3i(x: int(u), y: int(u), z: int(u))
+proc vec3*(b: bool):  Vector3b = Vector3b(x: b, y: b, z: b)
 
 
 macro vec_infix_op3*(op_sym: static[string], vec_type_in, vec_type_out: static[string]): untyped =
@@ -337,10 +343,9 @@ converter vec3_int_to_float*(v: Vector3i): Vector3f = return Vector3f(x: float(v
 converter vec3_bool_to_float*(v: Vector3b): Vector3f = return Vector3f(x: float(v.x), y: float(v.y), z: float(v.z))
 converter vec3_bool_to_int*(v: Vector3b): Vector3i = return Vector3i(x: int(v.x), y: int(v.y), z: int(v.z))
 
-
-converter vec3_from_float*(f: float): Vector3f = return Vector3f(x: f, y: f, z: f)
-converter vec3_from_int*(i: int): Vector3i = return Vector3i(x: i, y: i, z: i)
-converter vec3_from_bool*(b: bool): Vector3b = return Vector3b(x: b, y: b, z: b)
+# converter vec3_from_float*(f: float): Vector3f = return Vector3f(x: f, y: f, z: f)
+# converter vec3_from_int*(i: int): Vector3i = return Vector3i(x: i, y: i, z: i)
+# converter vec3_from_bool*(b: bool): Vector3b = return Vector3b(x: b, y: b, z: b)
 
 
 vec_swizzle3("Vector3f")
@@ -426,8 +431,8 @@ proc length*(v: Vector3f): float = return sqrt(v.x * v.x + v.y * v.y + v.z * v.z
 proc length*(v: Vector3i): float = return sqrt(float(v.x) * float(v.x) + float(v.y) * float(v.y) + float(v.z) * float(v.z))
 proc length*(v: Vector3b): float = return sqrt(float(v.x) * float(v.x) + float(v.y) * float(v.y) + float(v.z) * float(v.z))
 
-proc norm*(v: Vector3f): Vector3f = return v / length(v)
-proc norm*(v: Vector3i): Vector3f = return v / length(v)
-proc norm*(v: Vector3b): Vector3f = return v / length(v)
+proc norm*(v: Vector3f): Vector3f = return v / vec3(length(v))
+proc norm*(v: Vector3i): Vector3f = return v / vec3(length(v))
+proc norm*(v: Vector3b): Vector3f = return v / vec3(length(v))
 
 proc dot*(v1, v2: Vector3f): float = return merge_add(v1 * v2)

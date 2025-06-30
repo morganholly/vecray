@@ -14,7 +14,13 @@ type
 
 proc vec2*(x, y: float): Vector2f = Vector2f(x: x, y: y)
 proc vec2*(x, y: int):   Vector2i = Vector2i(x: x, y: y)
+proc vec2*(x, y: uint):   Vector2i = Vector2i(x: int(x), y: int(y))
 proc vec2*(x, y: bool):  Vector2b = Vector2b(x: x, y: y)
+
+proc vec2*(f: float): Vector2f = Vector2f(x: f, y: f)
+proc vec2*(i: int):   Vector2i = Vector2i(x: i, y: i)
+proc vec2*(u: uint):   Vector2i = Vector2i(x: int(u), y: int(u))
+proc vec2*(b: bool):  Vector2b = Vector2b(x: b, y: b)
 
 
 macro vec_infix_op2*(op_sym: static[string], vec_type_in, vec_type_out: static[string]): untyped =
@@ -284,10 +290,9 @@ converter vec2_int_to_float*(v: Vector2i): Vector2f = return Vector2f(x: float(v
 converter vec2_bool_to_float*(v: Vector2b): Vector2f = return Vector2f(x: float(v.x), y: float(v.y))
 converter vec2_bool_to_int*(v: Vector2b): Vector2i = return Vector2i(x: int(v.x), y: int(v.y))
 
-
-converter vec2_from_float*(f: float): Vector2f = return Vector2f(x: f, y: f)
-converter vec2_from_int*(i: int): Vector2i = return Vector2i(x: i, y: i)
-converter vec2_from_bool*(b: bool): Vector2b = return Vector2b(x: b, y: b)
+# converter vec2_from_float*(f: float): Vector2f = return Vector2f(x: f, y: f)
+# converter vec2_from_int*(i: int): Vector2i = return Vector2i(x: i, y: i)
+# converter vec2_from_bool*(b: bool): Vector2b = return Vector2b(x: b, y: b)
 
 
 vec_swizzle2("Vector2f")
@@ -372,9 +377,9 @@ proc length*(v: Vector2f): float = return sqrt(v.x * v.x + v.y * v.y)
 proc length*(v: Vector2i): float = return sqrt(float(v.x) * float(v.x) + float(v.y) * float(v.y))
 proc length*(v: Vector2b): float = return sqrt(float(v.x) * float(v.x) + float(v.y) * float(v.y))
 
-proc norm*(v: Vector2f): Vector2f = return v / length(v)
-proc norm*(v: Vector2i): Vector2f = return v / length(v)
-proc norm*(v: Vector2b): Vector2f = return v / length(v)
+proc norm*(v: Vector2f): Vector2f = return v / vec2(length(v))
+proc norm*(v: Vector2i): Vector2f = return v / vec2(length(v))
+proc norm*(v: Vector2b): Vector2f = return v / vec2(length(v))
 
 proc dot*(v1, v2: Vector2f): float = return merge_add(v1 * v2)
 
