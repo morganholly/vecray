@@ -1,4 +1,4 @@
-import std/[macros, math]
+import std/[macros, math, hashes]
 
 
 type
@@ -369,6 +369,27 @@ proc merge_or*(v: Vector3i): int = return v.x or v.y or v.z
 proc merge_xor*(v: Vector3b): bool = return v.x xor v.y xor v.z
 proc merge_xor*(v: Vector3i): int = return v.x xor v.y xor v.z
 
+converter vec3_bool*(v: Vector3b): bool = return merge_and(v)
+
+
+proc hash*(v: Vector3f): Hash =
+    var h: Hash = 0
+    h = h !& hash(v.x)
+    h = h !& hash(v.y)
+    h = h !& hash(v.z)
+    return !$ h
+proc hash*(v: Vector3i): Hash =
+    var h: Hash = 0
+    h = h !& hash(v.x)
+    h = h !& hash(v.y)
+    h = h !& hash(v.z)
+    return !$ h
+proc hash*(v: Vector3b): Hash =
+    var h: Hash = 0
+    h = h !& hash(v.x)
+    h = h !& hash(v.y)
+    h = h !& hash(v.z)
+    return !$ h
 
 
 vec_infix_op3("+", "Vector3f", "Vector3f")
