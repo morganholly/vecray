@@ -1,3 +1,7 @@
+import vector2, vector3
+import std/[macros, math, hashes]
+
+
 type Array3d*[T] = object
     data *: ptr UncheckedArray[T]
     sizeX *: uint
@@ -49,7 +53,7 @@ proc `=copy`*[T](a1: var Array3d[T], a2: Array3d[T]): void =
 proc `=dup`*[T](a: Array3d[T]): Array3d[T] =
     result = newArray3d[T](a.sizeX, a.sizeY, a.sizeZ)
     if a.data != nil:
-        result.data = cast[ptr UncheckedArray[T]](alloc0(sizeof(T) * int(uint(a2.sizeX) * uint(a2.sizeY))))
+        result.data = cast[ptr UncheckedArray[T]](alloc0(sizeof(T) * int(uint(a.sizeX) * uint(a.sizeY))))
         for i in 0..<(a.sizeX * a.sizeY * a.sizeZ):
             result.data[i] = `=dup`(a.data[i])
 
@@ -61,10 +65,10 @@ proc `=sink`*[T](a1: var Array3d[T], a2: Array3d[T]): void =
     a1.data = a2.data
 
 
-proc `[]`*[T](a: Array3d[T], x, y, z: uint): T =
+proc `[]`*[T](a: Array3d[T], x, y, z: uint): var T =
     return a.data[x + y * a.sizeX + z * a.sizeX * a.sizeY]
 
-proc `[]`*[T](a: Array3d[T], x, y, z: int): T =
+proc `[]`*[T](a: Array3d[T], x, y, z: int): var T =
     return a.data[uint(x) + uint(y) * a.sizeX + uint(z) * a.sizeX * a.sizeY]
 
 proc `[]=`*[T](a: var Array3d[T], x, y, z: uint, val: T) =
@@ -72,6 +76,14 @@ proc `[]=`*[T](a: var Array3d[T], x, y, z: uint, val: T) =
 
 proc `[]=`*[T](a: var Array3d[T], x, y, z: int, val: T) =
     a.data[uint(x) + uint(y) * a.sizeX + uint(z) * a.sizeX * a.sizeY] = val
+
+
+proc `[]`*[T](a: Array3d[T], pos: Vector3i): var T =
+    return a.data[uint(pos.x) + uint(pos.y) * a.sizeX + uint(pos.z) * a.sizeX * a.sizeY]
+
+proc `[]=`*[T](a: var Array3d[T], pos: Vector3i, val: T) =
+    a.data[uint(pos.x) + uint(pos.y) * a.sizeX + uint(pos.z) * a.sizeX * a.sizeY] = val
+
 
 proc set3d*[T](a: var Array3d[T], x, y, z: Slice[SomeInteger], val: T) =
     for plane in z.a .. z.b:

@@ -1,3 +1,7 @@
+import vector2, vector3
+import std/[macros, math, hashes]
+
+
 type Array2d*[T] = object
     data *: ptr UncheckedArray[T]
     sizeX *: uint
@@ -67,6 +71,14 @@ proc `[]=`*[T](a: var Array2d[T], x, y: uint, val: sink T) =
 
 proc `[]=`*[T](a: var Array2d[T], x, y: int, val: sink T) =
     a.data[uint(y) * a.sizeX + uint(x)] = val
+
+
+proc `[]`*[T](a: Array2d[T], pos: Vector2i): var T =
+    return a.data[uint(pos.y) * a.sizeX + uint(pos.x)]
+
+proc `[]=`*[T](a: var Array2d[T], pos: Vector2i, val: sink T) =
+    a.data[uint(pos.y) * a.sizeX + uint(pos.x)] = val
+
 
 proc set2d*[T](a: var Array2d[T], x, y: Slice[SomeInteger], val: sink T) =
     for row in y.a .. y.b:
