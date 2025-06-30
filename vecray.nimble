@@ -1,6 +1,6 @@
 # Package
 
-version       = "0.5.0"
+version       = "0.6.0"
 author        = "Morgan Holly"
 description   = "array 2d/3d, vector 2d/3d"
 license       = "MIT"
