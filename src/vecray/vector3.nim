@@ -12,14 +12,18 @@ type
         x*, y*, z*: bool
 
 
+proc vec3*(f: Vector3f): Vector3f = f
+proc vec3*(i: Vector3i): Vector3i = i
+proc vec3*(b: Vector3b): Vector3b = b
+
 proc vec3*(x, y, z: float): Vector3f = Vector3f(x: x, y: y, z: z)
 proc vec3*(x, y, z: int):   Vector3i = Vector3i(x: x, y: y, z: z)
-proc vec3*(x, y, z: uint):   Vector3i = Vector3i(x: int(x), y: int(y), z: int(z))
+proc vec3*(x, y, z: uint):  Vector3i = Vector3i(x: int(x), y: int(y), z: int(z))
 proc vec3*(x, y, z: bool):  Vector3b = Vector3b(x: x, y: y, z: z)
 
 proc vec3*(f: float): Vector3f = Vector3f(x: f, y: f, z: f)
 proc vec3*(i: int):   Vector3i = Vector3i(x: i, y: i, z: i)
-proc vec3*(u: uint):   Vector3i = Vector3i(x: int(u), y: int(u), z: int(u))
+proc vec3*(u: uint):  Vector3i = Vector3i(x: int(u), y: int(u), z: int(u))
 proc vec3*(b: bool):  Vector3b = Vector3b(x: b, y: b, z: b)
 
 

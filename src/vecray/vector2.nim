@@ -12,14 +12,18 @@ type
         x*, y*: bool
 
 
+proc vec2*(f: Vector2f): Vector2f = f
+proc vec2*(i: Vector2i): Vector2i = i
+proc vec2*(b: Vector2b): Vector2b = b
+
 proc vec2*(x, y: float): Vector2f = Vector2f(x: x, y: y)
 proc vec2*(x, y: int):   Vector2i = Vector2i(x: x, y: y)
-proc vec2*(x, y: uint):   Vector2i = Vector2i(x: int(x), y: int(y))
+proc vec2*(x, y: uint):  Vector2i = Vector2i(x: int(x), y: int(y))
 proc vec2*(x, y: bool):  Vector2b = Vector2b(x: x, y: y)
 
 proc vec2*(f: float): Vector2f = Vector2f(x: f, y: f)
 proc vec2*(i: int):   Vector2i = Vector2i(x: i, y: i)
-proc vec2*(u: uint):   Vector2i = Vector2i(x: int(u), y: int(u))
+proc vec2*(u: uint):  Vector2i = Vector2i(x: int(u), y: int(u))
 proc vec2*(b: bool):  Vector2b = Vector2b(x: b, y: b)
 
 
